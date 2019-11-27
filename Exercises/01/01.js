@@ -1,8 +1,10 @@
 //day one exercise one
 
 const piramide = function (height = 3){
-  for(let i = 1; i <= height; i++){
-    console.log('#');
+  let output = '';
+  for(let i = 0; i < height; i++){
+    let output = output + '#';
+    console.log(output);
   }
 }
 
