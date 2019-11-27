@@ -1,22 +1,6 @@
 //fibonacci
-const fibonacci = function(n, a, b){
-  if(n > 0){
-    if( !a ){
-      a = 1;
-      console.log(`${a}, `);
-     return fibonacci(n-1, a);
-    }
-    else if( !b ){
-      b = a;
-      console.log(`${b}, `);
-      return fibonacci(n - 1, a, b);
-    }else {
-      console.log(`${a + b}, `);
-      return fibonacci(n-1, b, a + b);
-    }
-  }else{
-    return;
-  }
+const fibonacci = function(n, arr = [1, 1] ){
+  return (arr.length >= n) ? arr : fibonacci(n - 1, arr.push(arr[-1] + arr[-2]));
 }
 
 fibonacci(8);
