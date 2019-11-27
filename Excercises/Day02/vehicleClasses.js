@@ -22,5 +22,10 @@ class Taxi {
 }
 
 class ClaseCinco {
-
+ constructor(numeroPlazas){
+   this.numeroPlazas = numeroPlazas;
+ }
+ 
+ getNumeroPlazas(){return this.plazas;}
+ setNumeroPlazas(numeroPlazas){this.numeroPlazas = numeroPlazas;}
 }
