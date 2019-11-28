@@ -23,9 +23,9 @@ window.document
 //returns array/list of nodes
 ### getElementBy\<something\>()
 
-
+### classList attribute
 > Written with [StackEdit](https://stackedit.io/).
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNDExMTk3NDU4LDEyMjczMDA3MDMsLTE2MD
-UyOTgzMjUsNzk3OTQzODI3XX0=
+eyJoaXN0b3J5IjpbNDA3NzY1MDYxLDQxMTE5NzQ1OCwxMjI3Mz
+AwNzAzLC0xNjA1Mjk4MzI1LDc5Nzk0MzgyN119
 -->
