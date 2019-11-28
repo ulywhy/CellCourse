@@ -14,9 +14,15 @@
 
 ## Console access to DOM nodes
 
+```javascript
+//window
+window
+//document
+window.document
 
+```
 
 > Written with [StackEdit](https://stackedit.io/).
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIwODczNDk4NzgsNzk3OTQzODI3XX0=
+eyJoaXN0b3J5IjpbLTE2MDUyOTgzMjUsNzk3OTQzODI3XX0=
 -->
