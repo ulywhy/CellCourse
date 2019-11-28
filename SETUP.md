@@ -33,3 +33,12 @@ nvm install -g json server
 npm install -g browserify
 ```
 
++ install HTTP server
+```bash
+npm install -g http-server
+```
+#### run
+cd into your _http directory_
+```bash
+http-server
+```
