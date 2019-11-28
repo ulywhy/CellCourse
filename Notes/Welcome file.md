@@ -175,10 +175,54 @@ class Post {
 module.exports = Post;
 ```
 
+### Comments
+```javascript
+//comment.js
+const Post = require('./post.js');
 
+class Comment {
+	constructor(){
+	this.path = 'https://jsonplaceholder.typicode.com/comments';
+	}
+
+	async getComments(){
+		const response = await fetch(this.path);
+		return await response.json();
+	}
+
+	async getCommentsById(id){
+		const response = await fetch(`${this.path}/${id}`);
+		return await response.json();
+	}
+
+	async getCommentsByPostId(postId){
+		const response = await fetch(this.path);
+		const comments = await response.json();
+		return comments.filter(c => c.postId === postId);
+	}
+
+	async getCommentsByUserId(userId){
+		let post = new Post();
+		await post.getPostByUserId(userId)
+		.then( p => {
+			console.log(p);
+			post = p;
+		})
+
+		let comments = [];
+
+		await post.forEach(p => {
+			this.getCommentsByPostId(p.id).then(c => comments.push(c));
+		})
+		return comments;
+	}
+}
+
+module.exports = Comment;
+```
 > Written with [StackEdit](https://stackedit.io/).
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbOTAzNzU2NzEwLC01MzI2OTc4NTAsNDA3Nz
-Y1MDYxLDQxMTE5NzQ1OCwxMjI3MzAwNzAzLC0xNjA1Mjk4MzI1
-LDc5Nzk0MzgyN119
+eyJoaXN0b3J5IjpbMjA5NzA5MzU5NCwtNTMyNjk3ODUwLDQwNz
+c2NTA2MSw0MTExOTc0NTgsMTIyNzMwMDcwMywtMTYwNTI5ODMy
+NSw3OTc5NDM4MjddfQ==
 -->
