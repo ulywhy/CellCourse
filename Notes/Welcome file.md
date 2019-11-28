@@ -4,11 +4,119 @@
 ### app.js
 
 ```javascript
+//app.js
+const User = require('./user.js');
+const Post = require('./post.js');
 
+class App{
+	constructor(){
+		this.user = new User();
+		this.user.getUsers().then(data => {
+			data.forEach(d => this.populateUser(d))
+		});
+	}
+
+	Li(user){
+		var li = document.createElement('li');
+		li.innerText = `${user.name}`
+		li.setAttribute('id', user.id);
+		li.addEventListener('click', this.click.bind(this));
+		return li;
+	}
+
+	click(event){
+		this.fillUser(event.target.getAttribute('id'));
+	}
+
+	fillUser(id){
+		//traer post por id de usuario
+		let post = new Post();
+		console.log(typeof id)
+		post.getPostByUserId(Number(id)).then(posts => {
+			document.querySelector('.container .content')
+			.innerText = posts.map( post =>
+				`
+					userId: ${id}
+					postId: ${post.id}
+					${post.title}
+
+					${post.body}
+				`
+			).reduce((acc, val) => acc += val)
+		})
+	}
+
+	populateUser(user){
+		document.body
+		.querySelector('.container .left .user-list')
+		.appendChild(this.Li(user));
+	}
+
+}
+
+
+var app = new App();
+
+var p = new Post();
+
+p.getPostByUserId(4).then(data => console.log(data));
 ```
+
+### index.html
+```html
+<!doctype html>
+
+<html>
+  <head>
+
+    <title>my home page</title>
+    <style>
+      .container{
+        height: 600px;
+      }
+
+      .container .left{
+        display: inline-block;
+        width: 150px;
+        background-color: yellow;
+      }
+
+      .container .content{
+        display: inline-block;
+        width: 450px;
+        background-color: cyan;
+      }
+
+      .user-list li {
+        padding: 4px 2px;
+        margin: 10px 3px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <h1 class="title">My home page</h1>
+    <div class="container">
+      <div class="left">
+        <ul class="user-list">
+        </ul>
+        
+      </div>
+      <div class="content">
+	<div class="address">
+        </div>
+      </div>
+    </div>
+  </body>
+    <script src="./app.dist.js"></script>
+
+</html>
+```
+
+### u
 > Written with [StackEdit](https://stackedit.io/).
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIwNTM5Njc5NjQsLTUzMjY5Nzg1MCw0MD
-c3NjUwNjEsNDExMTk3NDU4LDEyMjczMDA3MDMsLTE2MDUyOTgz
-MjUsNzk3OTQzODI3XX0=
+eyJoaXN0b3J5IjpbMTY2MDM1NjM1MCwtNTMyNjk3ODUwLDQwNz
+c2NTA2MSw0MTExOTc0NTgsMTIyNzMwMDcwMywtMTYwNTI5ODMy
+NSw3OTc5NDM4MjddfQ==
 -->
