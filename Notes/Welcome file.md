@@ -24,8 +24,13 @@ window.document
 ### getElementBy\<something\>()
 
 ### classList attribute
+
+### setAttribute(attribute, value)
+
+
 > Written with [StackEdit](https://stackedit.io/).
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNDA3NzY1MDYxLDQxMTE5NzQ1OCwxMjI3Mz
-AwNzAzLC0xNjA1Mjk4MzI1LDc5Nzk0MzgyN119
+eyJoaXN0b3J5IjpbLTUzMjY5Nzg1MCw0MDc3NjUwNjEsNDExMT
+k3NDU4LDEyMjczMDA3MDMsLTE2MDUyOTgzMjUsNzk3OTQzODI3
+XX0=
 -->
