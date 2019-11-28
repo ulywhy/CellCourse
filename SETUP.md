@@ -25,7 +25,7 @@ nvm install -g nodemon
 + install Json Server 
 more instructions on [day 3](https://towa-e-learning.firebaseapp.com/learning/chapter/kfGAifxsJSgvqs2epynb) 
 ```bash
-nvm install -g json server
+nvm install -g json-server
 ```
 
 + install Browserify
