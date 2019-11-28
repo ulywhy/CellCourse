@@ -14,20 +14,19 @@
 
 ## Console access to DOM nodes
 
-```javascript
-//window
+### window
 var w = window
-//document
+### document
 let doc = window.document
 console.log(doc === document) // true
-//finding nodes
-getElementsBy\<something\>()
+
+### getElementsBy\<something\>()
 //returns array/list of nodes
-getElementBy\<something
-```
+### getElementBy\<something\>()
+
 
 > Written with [StackEdit](https://stackedit.io/).
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTExMTUxNTM0MzMsLTE2MDUyOTgzMjUsNz
-k3OTQzODI3XX0=
+eyJoaXN0b3J5IjpbMTIyNzMwMDcwMywtMTYwNTI5ODMyNSw3OT
+c5NDM4MjddfQ==
 -->
