@@ -21,11 +21,13 @@ var w = window
 let doc = window.document
 console.log(doc === document) // true
 //finding nodes
-
+getElementsBy\<something\>()
+//returns array/list of nodes
+getElementBy\<something
 ```
 
 > Written with [StackEdit](https://stackedit.io/).
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTMxODg0NjI5OCwtMTYwNTI5ODMyNSw3OT
-c5NDM4MjddfQ==
+eyJoaXN0b3J5IjpbLTExMTUxNTM0MzMsLTE2MDUyOTgzMjUsNz
+k3OTQzODI3XX0=
 -->
