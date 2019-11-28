@@ -113,10 +113,72 @@ p.getPostByUserId(4).then(data => console.log(data));
 </html>
 ```
 
-### u
+### User
+```javascript
+//user.js
+
+class User {
+	constructor(){
+		this.path = 'https://jsonplaceholder.typicode.com/users';
+	}
+
+	async getUsers(){
+		const response = await fetch(this.path);
+		return await response.json();
+	}
+
+	async getUserById(id){
+		const response = await fetch(`this.path/${id}`);
+		return response.json();
+	}
+
+	async getUserByName(name){
+		return this.getUsers().then(users => users.find(u => u.name === name))
+	}
+}
+
+module.exports = User;
+```
+
+### Post
+```javascript
+//post.js
+const User = require('./user.js');
+
+class Post {
+	constructor(){
+	this.path = 'https://jsonplaceholder.typicode.com/posts';
+	}
+
+	async getPosts(){
+		const response = await fetch(this.path);
+		return response.json();
+	}
+
+	async getPostById(id){
+		const response = await fetch(`${this.path}/${id}`);
+		return response.json();
+	}
+
+	async getPostByUserId(userId){
+		const posts = await this.getPosts();
+		return posts.filter(p => p.userId === userId);
+	}
+
+	async getPostByUserName(userName){
+		const user = await User.getUserByName(UserName);
+		const posts = await this.getPosts();
+		return posts.filter(p => p.userId === user.id);
+	}
+}
+
+module.exports = Post;
+```
+
+
 > Written with [StackEdit](https://stackedit.io/).
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTY2MDM1NjM1MCwtNTMyNjk3ODUwLDQwNz
-c2NTA2MSw0MTExOTc0NTgsMTIyNzMwMDcwMywtMTYwNTI5ODMy
-NSw3OTc5NDM4MjddfQ==
+eyJoaXN0b3J5IjpbOTAzNzU2NzEwLC01MzI2OTc4NTAsNDA3Nz
+Y1MDYxLDQxMTE5NzQ1OCwxMjI3MzAwNzAzLC0xNjA1Mjk4MzI1
+LDc5Nzk0MzgyN119
 -->
