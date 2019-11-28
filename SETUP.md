@@ -40,5 +40,5 @@ npm install -g http-server
 #### run
 cd into your _http directory_
 ```bash
-http-server
+http-server -o
 ```
