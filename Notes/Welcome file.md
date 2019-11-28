@@ -16,13 +16,16 @@
 
 ```javascript
 //window
-window
+var w = window
 //document
-window.document
+let doc = window.document
+doc === document
+//finding nodes
 
 ```
 
 > Written with [StackEdit](https://stackedit.io/).
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE2MDUyOTgzMjUsNzk3OTQzODI3XX0=
+eyJoaXN0b3J5IjpbLTEyODYwOTI0MDYsLTE2MDUyOTgzMjUsNz
+k3OTQzODI3XX0=
 -->
