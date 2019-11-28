@@ -19,13 +19,13 @@
 var w = window
 //document
 let doc = window.document
-doc === document
+console.log(doc === document) // true
 //finding nodes
 
 ```
 
 > Written with [StackEdit](https://stackedit.io/).
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEyODYwOTI0MDYsLTE2MDUyOTgzMjUsNz
-k3OTQzODI3XX0=
+eyJoaXN0b3J5IjpbMTMxODg0NjI5OCwtMTYwNTI5ODMyNSw3OT
+c5NDM4MjddfQ==
 -->
