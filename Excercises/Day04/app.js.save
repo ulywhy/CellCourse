@@ -1,0 +1,83 @@
+//app.js		this.person.getPerson(id).then(person => {
+
+const Person = require('./person.js');
+
+class App{
+	constructor(){
+		this.person = new Person();
+		this.person.getPeople().then(people => {
+			people.forEach(d => this.populatePeople(d))
+		});
+		console.log(this)
+		this.person.getPerson(1).then(function(p){
+		console.log(this)
+			let sections = document.querySelector('.container .content .sections')
+			console.log(sections)
+			Object.keys(p).filter(k => ['homeworld', 'species', 'vehicles', 'starships'].includes(k))
+			.forEach(function(k){
+				sections.appendChild(new this.Tab(k))
+			}, this)
+		})
+	}
+
+	changeSection(event){
+		console.log(`clicked ${event.target.innerText.toLowerCase()}`)
+		this.person.getSection(
+			event.target.getAttribute('id'),
+			event.target.innerText.toLowerCase())
+		.then(section => {
+			console.log(section)
+
+			if(typeof section === 'object'){
+				this.fillData(section.map(s => this.stringify(s)).reduce((acc, val) => acc += val))
+			}else{
+				this.fillData(this.stringify(section))
+			}
+		});
+	}
+
+	populatePeople(character){
+		document.body
+		.querySelector('.container .left .user-list')
+		.appendChild(this.Li(character));
+	}
+
+	Li(character){
+		var li = document.createElement('div');
+		li.innerText = `${character.name}`
+		li.setAttribute('id', character.id);
+		li.classList.add('button');
+		li.addEventListener('click', this.changeSection.bind(this));
+		return li;
+	}
+
+	Tab(attribute){
+		var tab = docunemt.createElement('div');
+		tab.innerText = attribute
+		tab.setAttribute('id', 1)
+		tab.classList.add('button')
+		li.addEventListener('click', this.click.bind(this))
+	}
+
+	click(event){
+		document.querySelectorAll('.container .content .sections .button')
+		.forEach(el => el.setAttribute('id', event.target.getAttribute('id')))
+		document.querySelector('.container .content .button').click()
+	}
+
+	stringify(obj){
+		let undessired = ['created', 'url', 'edited']
+		return Object.keys(obj).filter(k => typeof(obj[k]) !== 'object')
+		.filter(k => !undessired.includes(k))
+		.map(k => `${k}: ${obj[k]}\n`)
+		.reduce((acc, val) => acc += val);
+	}
+
+	fillData(data){
+		document.querySelector('.container .content .board').innerText = data;
+	}
+
+}
+
+
+var app = new App();
