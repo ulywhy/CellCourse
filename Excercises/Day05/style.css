@@ -1,0 +1,42 @@
+.flex-container{
+	display:flex;
+}
+
+.flex-row{
+	flex-direction: row;
+}
+
+.flex-column{
+	flex-direction: column;
+}
+
+.container{
+	background-color: orange;
+}
+
+.container .left{
+	width: 20%;
+}
+
+.button{
+	padding: 10px 10px;
+	margin: 5px 5px;
+	background-color: yellow;
+}
+
+.container .content{
+	width: 80%;
+	align-items: stretch;
+}
+
+.container .content .sections div{
+	flex-grow: 1;
+	text-align: center;
+}
+
+.container .content .board{
+	display: block;
+	background-color: aqua;
+	margin: 0px 10px 10px 10px;
+	overflow-y: auto; 
+}
