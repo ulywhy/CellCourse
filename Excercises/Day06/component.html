@@ -1,0 +1,113 @@
+<!Doctype html>
+
+<html>
+<head>
+  <base href="https://cdn.rawgit.com/download/polymer-cdn/2.6.0/lib/">
+  <script src="webcomponentsjs/webcomponents-loader.js"></script>
+  <link rel="import" href="iron-ajax/iron-ajax.html">
+  <link rel="import" href="polymer/polymer-element.html">
+</head>
+
+<body>
+
+<my-element></my-element>
+
+
+<dom-module id="my-element">
+  <template>
+    <h1>Seassons</h1>
+    <h3> the current month is: [[month.name]]</h3>
+    <h4> the seasson is: [[month.seasson]]</h4>
+
+    <br>
+    month:   <input type="text" value="{{newMonth.name::input}}">
+    seasson: <input type="text" value="{{newMonth.seasson::input}}">
+    <button on-click="addMonth"> add month</button>
+    <br>
+    <br>
+    <template is="dom-repeat" items="[[months]]">
+      <button on-click="changeMonth">
+        [[item.name]]
+      </button>
+      <button on-click="delete">x</button>
+      <br>
+    </template>
+    <br>
+    <template is="dom-if" if="{{month.spring}}">
+      my god the flower are so pretty!!
+    </template>
+    <template is="dom-if" if="{{month.summer}}">
+      lets go swimm!!
+    </template>
+    <template is="dom-if" if="{{month.autumn}}">
+      it is so hot!!
+    </template>
+    <template is="dom-if" if="{{month.winter}}">
+      prrrrrr im frozen!!
+    </template>
+
+  </template>
+  <script>
+  class MyElement extends Polymer.Element{
+    static get is(){ return "my-element"}
+    static get properties() {
+      return {
+	newMonth: {type: Object, value: {name: '', seasson: '' }},
+        color: { type: String, value: 'green'},
+        months: { type: Array, value : 
+          [
+  	    {name: 'January', seasson: 'winter'},
+	    {name: 'February', seasson: 'winter'},
+	    {name: 'March', seasson: 'winter'},
+	    {name: 'April', seasson: 'spring'},
+	    {name: 'May', seasson: 'spring'},
+	    {name: 'June', seasson: 'spring'},
+	    {name: 'July', seasson: 'summer'},
+	    {name: 'August', seasson: 'summer'},
+	    {name: 'September', seasson: 'summer'},
+	    {name: 'October', seasson: 'autumn'},
+	    {name: 'November', seasson: 'autumn'},
+	    {name: 'December', seasson: 'autumn'}
+          ]
+        },
+        month: { type: Object, 
+          value: {name: 'January', seasson: 'winter', 
+            winter: true, 
+            summer: false,
+            autumn: false,
+            spring: false 
+          }
+        }
+      }
+    }
+
+    changeMonth(event){
+      this.set('month.name', event.model.item.name);
+      this.set('month.seasson', event.model.item.seasson);
+      this.set('month.autumn', false);
+      this.set('month.spring', false);
+      this.set('month.summer', false);
+      this.set('month.winter', false);
+      this.set('month.' + this.month.seasson, true);
+    }
+
+    delete(event){
+      this.splice('months', event.model.index, 1);
+    }
+ 
+    addMonth(event){
+      if(this.newMonth.name.length && this.newMonth.seasson.length){
+        this.push('months', {name: this.newMonth.name, 
+		seasson: this.newMonth.seasson})
+        this.set('newMonth.name', '')
+        this.set('newMonth.seasson', '')
+      }
+    }
+  }
+
+  customElements.define(MyElement.is, MyElement)
+  </script>
+</dom-module>
+
+</body>
+</html>
