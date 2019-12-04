@@ -1,1 +1,74 @@
 <!Doctype html>
+
+<html>
+
+<head>
+	<base href="https://cdn.rawgit.com/download/polymer-cdn/2.6.0/lib/">
+	<script src="webcomponentsjs/webcomponents-loader.js"></script>
+
+	<link rel="import" href="iron-ajax/iron-ajax.html">
+
+	<link rel="import" href="polymer/polymer-element.html">
+</head>
+
+
+<body>
+  
+  <cmp-one></cmp-one>
+
+  <dom-model id="cmp-one">
+
+    <template>
+      <style></style>
+
+      <div>
+        <h1>add attribute name</h1>
+        <input type="text" value="{{attribute::input}}">
+        <br>
+        <input type="text" value="{{value::input}}">
+        <button on-click="addAttribute" > add </button>
+
+      </div>
+
+      <dom.-repeat items="Object" >
+        <h1>add attribute name</h1>
+        <input type="text" value="{{attribute::input}}">
+        <br>
+        <input type="text" value="{{value::input}}">
+      </dom-repeat>
+
+      
+    </template>
+
+    <script>
+    class CmpOne extends Polymer.Element{
+ 
+      static get is() { return "cmp-one" }
+
+      static get properties() {
+        return { //Json object
+          
+          obj: { type: Object, value: {}, observer:'mapObject' },
+          attribute: { type: String, value: ''},
+          value: { type: String, value: ''}, 
+          arr: { type: Array, value [] } 
+        }
+      }
+    }
+
+    addAttribute(event){
+      this.set(this.attr, this.value, this.obj)
+      console.log(this.obj)
+    } 
+
+    mapObject(obj) {
+      this.set('this', Object.keys(obj).map(k => {key: k, value: obj[k]} ))
+    } 
+    customElements.define(CmpOne.is, CmpOne)  
+    </script>
+  
+  </dom-model>
+
+</body>
+
+</html>
