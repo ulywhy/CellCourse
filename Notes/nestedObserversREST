@@ -1,0 +1,274 @@
+ <!doctype HTML>
+
+<html>
+  <head>
+    <title>BusinessCardJSONPlaceholder</title>
+    <base href="https://cdn.rawgit.com/download/polymer-cdn/2.6.0/lib/">
+    <script src="webcomponentsjs/webcomponents-loader.js"></script>
+    <link rel="import" href="iron-ajax/iron-ajax.html">
+    <link rel="import" href="polymer/polymer-element.html">
+
+  <style> body {background-color: Bisque;} </style>
+
+  </head>
+  <body>
+
+
+    <business-parent></business-parent>
+    <div id=""></div>
+    
+    <dom-module id="business-parent">
+
+      <template>
+        <style>
+          :host .container{
+            background-color: lightCoral;
+            margin: 10px 0;
+          }
+
+	  .content{text-align: center; color: Beige;}
+
+	  .column {display: flex; flex-direction: column;}
+
+          .row {display: flex; flex-direction: row; justify-content: space-evenly;}
+
+          .header {justify-content: space-between;}
+
+          .child { flex-grow: 1;}
+
+          button {padding: 20px; background-color: crimson; border: 0px;}
+        </style>
+
+        <div class="container">
+        <div class="row header">
+          <button on-click="prevUser"> < </button>
+    
+          <div class="content column">
+            <h2>Name :  [[currentUser.name]]</h2>
+            <h2>Email : [[currentUser.email]]</h2>
+          </div>
+    
+          <button on-click="nextUser"> > </button>
+	</div>
+        </div>
+        
+        <div class="row">
+          <div class="child">
+           <address-component address=[[currentUser.address]]></address-component>
+          </div>
+	  <div class="child">
+            <company-component company=[[currentUser.company]]></company-component>
+          </div>
+        </div>
+        <post-component posts=[[posts]]></post-component>
+
+      </template>
+
+      <script>
+     
+        class BusinessParent extends Polymer.Element{
+
+          static get is (){return "business-parent"}
+
+          static get properties(){
+            return{
+              users:{
+                type: Array, value: []
+              },
+              currentUser:{
+                type:Object, value: {}, observer: 'getPosts'
+              },
+              userIndex: {type: Number, value: 0},
+              posts: Array
+            }
+
+          }
+
+          ready(){
+            super.ready()
+            this.getUsers()
+          }
+
+          async getUsers(){
+            this.set('users', await ( await fetch("https://jsonplaceholder.typicode.com/users")).json());
+            this.set("currentUser", this.users[0]);
+          }
+          
+          async getPosts(user){
+            let result = await (await fetch("https://jsonplaceholder.typicode.com/posts" )).json()
+	    this.set("posts", result.filter(p => p.userId == user.id))
+          }
+
+          nextUser(){
+            this.set("userIndex", ++this.userIndex % this.users.length)
+            this.set("currentUser", this.users[this.userIndex]);
+          }
+
+	  prevUser(){
+            this.set("userIndex", this.userIndex === 0 ? this.users.length - 1 : this.userIndex - 1)
+            this.set("currentUser", this.users[this.userIndex]);
+          }
+
+        }
+        
+        customElements.define(BusinessParent.is, BusinessParent);
+      </script>
+    </dom-module>
+
+
+    <dom-module id="address-component">
+      <template>
+        <style>
+          :host .container{
+            background-color: lightCoral;
+            margin: 10px 0;
+          }
+
+	  .content{text-align: center; color: Beige;}
+
+	  .column {display: flex; flex-direction: column;}
+
+          .row {display: flex; flex-direction: row; justify-content: center;}
+
+          button {padding: 20px; background-color: crimson; border: 0px;}
+        </style>
+
+          <div class="container row">
+            <div class="column content">
+  	      <p>Address: [[address.street]]</p>
+	      <p>City: [[address.city]]</p>
+	      <p>Suite: [[address.suite]]</p>
+            </div>
+          </div>
+
+      </template>
+
+      <script>
+        class AddressComponent extends Polymer.Element{
+          static get is(){return "address-component"}
+          static get properties(){
+            return{
+            }
+          }
+        }
+
+        customElements.define(AddressComponent.is,AddressComponent);
+      </script>
+    </dom-module>
+    
+    
+    <dom-module id="company-component">
+      <template>
+        <style>
+          :host .container{
+            background-color: lightCoral;
+            margin: 10px 0;
+	  }
+
+	  .content{text-align: center; color: Beige;}
+
+	  .column {display: flex; flex-direction: column;}
+
+          .row {display: flex; flex-direction: row; justify-content: center;}
+
+          button {padding: 20px; background-color: crimson; border: 0px;}
+        </style>
+
+          <div class="container row">
+           <div class="column content">
+	     <p>Company: [[company.name]]</p>
+	     <p>City: [[company.catchPhrase]]</p>
+	     <p>Suite: [[company.bs]]</p>
+	   </div>
+	  </div>
+
+      </template>
+
+      <script>
+        class CompanyComponent extends Polymer.Element{
+          static get is(){return "company-component"}
+          static get properties(){
+            return{
+            }
+          }
+        }
+
+        customElements.define(CompanyComponent.is,CompanyComponent);
+      </script>
+    </dom-module>
+
+
+
+    <dom-module id="post-component">
+        <template>
+        <style>
+          :host .container{
+            background-color: BurlyWood;
+            margin: 10px 0;
+          }
+
+	  .content{text-align: center; color: Beige;}
+
+	  .column {display: flex; flex-direction: column;}
+
+          .row {display: flex; flex-direction: row; justify-content: space-between;}
+
+          button {padding: 20px; background-color: Peru; border: 0px;}
+
+          p {padding: 40px;}
+
+        </style>
+        <div class="container">
+          <div class="row">
+           <button on-click="prevPost"> < </button>
+           <div class="column">
+             <h3> title: [[currentPost.title]] </h3>
+           </div>
+          <button on-click="nextPost"> > </button>
+         </div>
+         <div class="row">
+          <p>[[currentPost.body]]</p>
+         </div>
+        </div>
+
+        
+
+      
+     </template>
+
+     <script>
+     class PostComponent extends Polymer.Element {
+
+       static get is() {return "post-component"}
+
+       static get Properties() {return {
+         posts : Array,
+         currentIndex : {type: Number, value: 0},
+         currentPost : {type: Object, value: {}}
+       }}
+
+       static get observers(){return ['postChange(posts.*)']}
+
+       postChange(){
+         this.set('currentPost', this.posts[0]);
+         this.set('currentIndex', 0)
+       }
+
+       prevPost(){ 
+	 this.set('currentIndex', this.currentIndex > 0 ? this.currentIndex - 1 : this.posts.length - 1 )
+	 this.set('currentPost', this.posts[this.currentIndex])
+       }
+
+       nextPost(){
+         console.log('pst_idx: ', this.currentIndex)
+	 this.set('currentIndex', (this.currentIndex + 1)  % this.posts.length)
+	 this.set('currentPost', this.posts[this.currentIndex])
+       }
+
+     }
+     customElements.define(PostComponent.is, PostComponent)
+     </script>
+
+    </dom-module>
+  </body>
+</html>
