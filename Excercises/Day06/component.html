@@ -1,0 +1,63 @@
+<!Doctype html>
+
+<html>
+<head>
+  <base href="https://cdn.rawgit.com/download/polymer-cdn/2.6.0/lib/">
+  <script src="webcomponentsjs/webcomponents-loader.js"></script>
+  <link rel="import" href="iron-ajax/iron-ajax.html">
+  <link rel="import" href="polymer/polymer-element.html">
+</head>
+
+<body>
+
+<day-six></day-six>
+
+<dom-module id="day-six">
+  <template>
+    <style>
+      .green{background-color: green;}
+      .yellow{background-color: yellow;}
+      .gray{background-color: gray;}
+      .container{display: flex; background-color: green; justify-content: center; align-items: center; height: 100vh; padding: 0; margin: 0;}
+      .panel {display: flex; flex-direction: column; width: 50%; background-color: Peru;}
+      button, input, h3{margin: 10px; padding: 10px;}
+      button {background-color: lightblue; border: none;}
+      h3 {text-align: center;}
+    </style>
+    <div class="container">
+      <div class="panel">
+        <h3>click on the buttons to change the colors</h3>
+   
+        <h3 class$=[[colorClass]]>1526605 [[name]] <br> [[description]]</h3>
+     
+        <input type="text" value="{{name::input}}">
+        <input type="text" value="{{description::input}}">
+
+        <button on-click="toGreen">to green</button>
+        <button on-click="toYellow">to yellow</button>
+        <button on-click="toGray">to gray</button>
+      </div>
+    </div>
+  </template>
+  <script>
+  class DaySix extends Polymer.Element{
+    static get is(){return "day-six"}
+
+    static get properties(){ return {
+      name: {type: String, value: "Ulises"},
+      description: {type: String, value: "lit-elements developer"},
+      colorClass: {type: String, value: "green"}
+    }}
+
+    toGreen(event){ this.set('colorClass', 'green')}
+
+    toYellow(event){ this.set('colorClass', 'yellow')}
+
+    toGray(event){ this.set('colorClass', 'gray')}
+  }
+  customElements.define(DaySix.is, DaySix)
+  </script>
+</dom-module>
+
+</body>
+</html>
