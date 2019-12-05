@@ -1,0 +1,111 @@
+<!Doctype html>
+
+<html>
+<head>
+  <base href="https://cdn.rawgit.com/download/polymer-cdn/2.6.0/lib/">
+  <script src="webcomponentsjs/webcomponents-loader.js"></script>
+  <link rel="import" href="iron-ajax/iron-ajax.html">
+  <link rel="import" href="polymer/polymer-element.html">
+</head>
+
+<body>
+
+<movies-component></movies-component>
+
+<dom-module id="movies-component">
+  <template>
+    <style></style>
+    <h1>Nested Components</h1>
+    <p>Selected item: [[index]]</p>
+    <p>Selected value: [[currentMovie]]</p>
+    <p>New value: [[newMovie]]</p>
+
+    <new-movie-component movie="{{newMovie}}" movies="{{movies}}"></new-movie-component>
+    <edit-movie-component></edit-movie-component>
+    <list-movie-component movies="{{movies}}"></list-movie-component>
+  </template>
+  <script>
+  class MoviesComponent extends Polymer.Element {
+    static get is(){return "movies-component"}
+
+    static get properties() { return {
+        index: {type: Number, value:0},
+        currentMovie: String,
+        newMovie: String,
+        movies: {type: Array, value: [], notify: true}
+      }
+    }
+  }
+  customElements.define(MoviesComponent.is, MoviesComponent)
+  </script>
+</dom-module>
+
+<dom-module id="new-movie-component">
+  <template>
+    <style></style>
+    <input type="text" placeholder="type new item" value="{{movie::input}}">
+    <button on-click="addMovie"> add </button>
+  </template>
+  <script>
+  class NewMovieComponent extends Polymer.Element {
+    static get is(){return "new-movie-component"}
+
+    static get properties(){return { 
+        movie: {String, notify: true},
+        movies: {type: Array}
+      }
+    }
+    
+    addMovie(event){ this.push('movies', this.get('movie'));}
+  }
+  customElements.define(NewMovieComponent.is, NewMovieComponent)
+  </script>
+</dom-module>
+
+<dom-module id="edit-movie-component">
+  <template>
+    <style></style>
+    <input type="text" placeholder="select item to edit" value="{{movie}}">
+  </template>
+  <script>
+  class EditMovieComponent extends Polymer.Element{
+    static get is(){return "edit-movie-component"}
+
+    static get properties(){return {}}
+  }
+  customElements.define(EditMovieComponent.is, EditMovieComponent)
+  </script>
+</dom-module>
+
+
+
+<dom-module id="list-movie-component">
+  <template>
+    <style></style>
+    <dom-repeat items="{{movies}}">
+      <template>
+        <button id="[[index]]">remove</button><button>[[item]]</button>
+      </template>
+    </dom-repeat>
+  </template>
+  <script>
+  class ListMovieComponent extends Polymer.Element{
+    static get is(){return "list-movie-component"}
+
+    static get properties(){return { 
+      movies: {type: Array, notify: true}
+    }}
+
+    remove(event){
+      console.log(event.target) 
+      this.splice('movies', event.target.id, 1)
+    }
+
+  }
+  customElements.define(ListMovieComponent.is, ListMovieComponent)
+  </script>
+</dom-module>
+
+</body>
+
+</html>
