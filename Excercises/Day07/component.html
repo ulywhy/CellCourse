@@ -14,15 +14,23 @@
 
 <dom-module id="movies-component">
   <template>
-    <style></style>
-    <h1>Nested Components</h1>
-    <p>Selected item: [[index]]</p>
-    <p>Selected value: [[currentMovie]]</p>
-    <p>New value: [[newMovie]]</p>
-
-    <new-movie-component movie="{{newMovie}}" movies="{{movies}}"></new-movie-component>
-    <edit-movie-component></edit-movie-component>
-    <list-movie-component movies="{{movies}}"></list-movie-component>
+    <style>
+    .panel{display: block;}
+    .flex-column{display:flex; flex-direction: column;}
+    </style>
+    <div class="panel">
+      <div class="flex-column">
+        <h1>Nested Components</h1>
+        <p>Selected item: [[index]]</p>
+        <p>Selected value: [[currentMovie]]</p>
+        <p>New value: [[newMovie]]</p>
+      </div>
+      <div class="flex-column">
+        <new-movie-component movie="{{newMovie}}" movies="{{movies}}"></new-movie-component>
+        <edit-movie-component movie="{{currentMovie}}" movies="{{movies}}" index="[[index]]"></edit-movie-component>
+        <list-movie-component movie="{{currentMovie}}" movies="{{movies}}" index="{{index}}"></list-movie-component>
+      </div>
+    </div>
   </template>
   <script>
   class MoviesComponent extends Polymer.Element {
@@ -42,9 +50,16 @@
 
 <dom-module id="new-movie-component">
   <template>
-    <style></style>
-    <input type="text" placeholder="type new item" value="{{movie::input}}">
-    <button on-click="addMovie"> add </button>
+    <style>
+    .flex-column{display:flex; flex-direction: column;}
+    .flex-row{display:flex; flex-direction: row;}
+    </style>
+    <div class="flex-column">
+      <div class="flex-row">
+        <input type="text" placeholder="type new item" value="{{movie::input}}">
+        <button on-click="addMovie"> add </button>
+      </div>
+    </div>
   </template>
   <script>
   class NewMovieComponent extends Polymer.Element {
@@ -56,7 +71,10 @@
       }
     }
     
-    addMovie(event){ this.push('movies', this.get('movie'));}
+    addMovie(event){ 
+      this.push('movies', this.get('movie'));
+      this.set('movie', '')
+    }
   }
   customElements.define(NewMovieComponent.is, NewMovieComponent)
   </script>
@@ -64,14 +82,33 @@
 
 <dom-module id="edit-movie-component">
   <template>
-    <style></style>
-    <input type="text" placeholder="select item to edit" value="{{movie}}">
+    <style>
+    .flex-column{display:flex; flex-direction: column;}
+    .flex-row{display:flex; flex-direction: row;}
+    </style>
+    <div class="flex-column">
+      <div class="flex-row">
+        <input type="text"
+               placeholder="select item to edit"
+               on-input="setMovie" value="{{movie::input}}">
+      </div>
+    </div>
   </template>
   <script>
   class EditMovieComponent extends Polymer.Element{
     static get is(){return "edit-movie-component"}
 
-    static get properties(){return {}}
+    static get properties(){
+      return {
+        movies: {type: Array, notify: true},
+        movie: String,
+        index: Number
+      }
+    }
+
+    setMovie(){
+      this.set(this.index, this.movie,'movies')
+    }
   }
   customElements.define(EditMovieComponent.is, EditMovieComponent)
   </script>
@@ -81,24 +118,38 @@
 
 <dom-module id="list-movie-component">
   <template>
-    <style></style>
-    <dom-repeat items="{{movies}}">
-      <template>
-        <button id="[[index]]">remove</button><button>[[item]]</button>
-      </template>
-    </dom-repeat>
+    <style>
+    .flex-column{display:flex; flex-direction: column;}
+    .flex-row{display:flex; flex-direction:row; justify-content: center;}
+    </style>
+    <div class="flex-column">
+      <dom-repeat items="{{movies}}">
+        <template>
+          <div class="flex-row" id="[[index]]">
+           <button on-click="remove">remove</button>
+           <button on-click="select">[[item]]</button>
+          </div>
+        </template>
+      </dom-repeat>
+    </div>
   </template>
   <script>
   class ListMovieComponent extends Polymer.Element{
     static get is(){return "list-movie-component"}
 
     static get properties(){return { 
-      movies: {type: Array, notify: true}
+      movies: {type: Array, notify: true},
+      movie: {type: String, notify: true},
+      index: {type: Number, notify: true}
     }}
 
     remove(event){
-      console.log(event.target) 
-      this.splice('movies', event.target.id, 1)
+      this.splice('movies', event.target.parentNode.id, 1)
+    }
+
+    select(event){
+      this.set('index', event.target.parentNode.id)
+      this.set('movie', this.movies[this.index])
     }
 
   }
