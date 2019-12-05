@@ -14,36 +14,38 @@
 
 <body>
   
-  <cmp-one></cmp-one>
+  <cmp-four></cmp-four>
 
-  <dom-model id="cmp-one">
+  <dom-module id="cmp-four">
 
     <template>
       <style></style>
 
       <div>
-        <h1>add attribute name</h1>
-        <input type="text" value="{{attribute::input}}">
+        <h1>add attributes to the object</h1>
+        <span>attribute:</span><input type="text" value="{{attribute::input}}">
         <br>
-        <input type="text" value="{{value::input}}">
+        <span>value:</span><input type="text" value="{{value::input}}">
         <button on-click="addAttribute" > add </button>
 
       </div>
 
-      <dom.-repeat items="Object" >
-        <h1>add attribute name</h1>
-        <input type="text" value="{{attribute::input}}">
-        <br>
-        <input type="text" value="{{value::input}}">
-      </dom-repeat>
 
+      <h1>Object</h1>
+      <h4>{</h4>
+      <dom-repeat items="{{arr}}">
+        <template>
+         <span>[[item.key]]:</span> <input type="text" value="{{item.value::input}}">
+        </template>
+      </dom-repeat>
+      <h4>}</h4>
       
     </template>
 
     <script>
-    class CmpOne extends Polymer.Element{
+    class CmpFour extends Polymer.Element{
  
-      static get is() { return "cmp-one" }
+      static get is() { return "cmp-four" }
 
       static get properties() {
         return { //Json object
@@ -51,23 +53,27 @@
           obj: { type: Object, value: {}, observer:'mapObject' },
           attribute: { type: String, value: ''},
           value: { type: String, value: ''}, 
-          arr: { type: Array, value [] } 
+          arr: { type: Array, value: [] } 
         }
       }
+
+      addAttribute(event){
+        this.set(this.attribute, this.value, this.obj)
+        this.mapObject(this.obj)
+      } 
+
+      mapObject(obj) {
+        this.set('arr', Object.keys(obj).map(k => {
+            return { key: k, value: obj[k]};
+          })
+        )
+      }
     }
-
-    addAttribute(event){
-      this.set(this.attr, this.value, this.obj)
-      console.log(this.obj)
-    } 
-
-    mapObject(obj) {
-      this.set('this', Object.keys(obj).map(k => {key: k, value: obj[k]} ))
-    } 
-    customElements.define(CmpOne.is, CmpOne)  
+ 
+    customElements.define(CmpFour.is, CmpFour)  
     </script>
   
-  </dom-model>
+  </dom-module>
 
 </body>
 
